@@ -1,0 +1,158 @@
+\NeedsTeXFormat{LaTeX2e}[1994/06/01]
+\ProvidesPackage{focusframe}[2019/10/08 Temporary grey frames with word count]
+\usepackage[utf8]{inputenc}
+\usepackage{amssymb}
+\usepackage{wasysym}
+\usepackage[a4paper]{geometry}
+\usepackage[dvipsnames]{xcolor}
+\usepackage{graphicx}
+\usepackage{scrextend}
+\usepackage{fancyhdr}
+\usepackage{lastpage}
+\usepackage{lipsum}
+\pagestyle{fancy}
+\fancyhf{}
+
+\rfoot{Page \thepage \hspace{1pt} of \pageref{LastPage}}
+\setcounter{secnumdepth}{1}
+
+\usepackage{hyperref}
+\hypersetup{colorlinks=true,
+            linkcolor=blue,
+            filecolor=magenta,      
+            urlcolor=cyan,}
+\urlstyle{same}
+\usepackage[T1]{fontenc}
+\usepackage{xfp}
+\usepackage{etoolbox}
+\usepackage{fancybox}
+\usepackage[fulladjust]{marginnote}
+\usepackage{verbatim}
+
+\providebool{skipcount}
+\DeclareOption{off}{\booltrue{skipcount}}
+\DeclareOption{on}{\boolfalse{skipcount}}
+\ProcessOptions\relax
+
+    %%% FILE COUNT %%%
+\newcommand{\texfile}{\immediate\write18{texcount -sum -subcount=none \xjobname.tex > texcou.nt}}
+    
+\newcommand{\getfile}{%
+    \texfile
+    \immediate\write18{grep "Sum" texcou.nt > filecou.nt}
+    \immediate\write18{cut -d : -f 2 filecou.nt > cleancou.nt}
+    }
+    
+% \newcommand{\filecount}{%
+%     \ifbool{skipcount}{\par}{%
+%         \marginnote{%
+%             \getfile
+%             \textcolor{gray}{\shadowbox{\large\textbf{\input{cleancou.nt\unskip}}}}
+%             }[-12em]
+%         }
+%     }
+
+\newcommand{\filegoal}[1]{%
+    \ifbool{skipcount}{\par}{%
+        \marginnote{%
+            \getfile
+            \textcolor{gray}{\shadowbox{\large\textbf{\input{cleancou.nt}\unskip/#1}}}
+            }[-12em]
+        }
+    }
+
+\newcommand{\filewcount}{%
+    \ifbool{skipcount}{\par}{%
+        \marginnote{%
+            \getfile
+            \textcolor{gray}{\shadowbox{\large\textbf{\input{cleancou.nt}\unskip}}}
+            }[-12em]
+        }
+    }
+
+    %%% SECTION %%%
+\newcommand{\texsect}{%
+    \immediate\write18{texcount -sum -subcount=section \xjobname.tex > secttexcou.nt}
+    }
+
+  
+\newcommand{\getsect}[1]{%
+    \texsect
+    \immediate\write18{grep "#1" secttexcou.nt > sectcou.nt}
+    \immediate\write18{cut -d + -f 1 sectcou.nt > cleancou.nt}
+    }
+
+\newcommand{\sect}[1]{%
+    \ifbool{skipcount}{\section{#1}}{%
+        \section{#1}
+        \getsect{#1}
+        \marginnote{%
+                \color{Gray}{\doublebox{\large\textbf{\input{cleancou.nt}\unskip}}}
+            }[-3em]
+        }
+    }
+
+\newcommand{\sectgoal}[2]{%
+    \ifbool{skipcount}{\section{#1}}{%
+        \section{#1}
+        \getsect{#1}
+        \newread\tmp      
+            \openin\tmp=cleancou.nt
+            \read\tmp to \cnt
+            \closein\tmp
+        \marginnote{%
+            \color{%
+                \ifnum\cnt>\fpeval{#2*1.2} Red%
+                \else\ifnum\cnt>\fpeval{#2*1.1} BurntOrange%
+                \else\ifnum\cnt>\fpeval{#2*0.9} ForestGreen%
+                \else Gray%
+                \fi\fi\fi}
+                {\doublebox{\large\textbf{\input{cleancou.nt}\unskip/#2}}}
+            }[-3em]
+        }
+    }
+
+        %%% SUBSECTION %%%
+\newcommand{\texsubsect}{%
+    \immediate\write18{texcount -sum -subcount=subsection \xjobname.tex > subtexcou.nt}
+    }     
+
+\newcommand{\getsubsect}[1]{%
+    \texsubsect
+    \immediate\write18{grep "#1" subtexcou.nt > subcou.nt}
+    \immediate\write18{cut -d + -f 1 subcou.nt > cleancou.nt}
+    }
+
+\newcommand{\subsect}[1]{%
+    \ifbool{skipcount}{\subsection{#1}}{%
+        \subsection{#1}
+        \getsubsect{#1}
+        \marginnote{%
+                \color{Gray}{\input{cleancou.nt}\unskip}
+                }[-1em]
+        }
+     }
+     
+\newcommand{\subsectgoal}[2]{%
+    \ifbool{skipcount}{\subsection{#1}}{%
+        \subsection{#1}
+        \getsubsect{#1}
+        \newread\tmp       
+            \openin\tmp=cleancou.nt
+            \read\tmp to \cnt
+            \closein\tmp
+        \marginnote{%
+            \color{%
+                \ifnum\cnt>\fpeval{#2*1.2} Red%
+                \else\ifnum\cnt>\fpeval{#2*1.1} BurntOrange%
+                \else\ifnum\cnt>\fpeval{#2*0.9} ForestGreen%
+                \else Gray%
+                \fi\fi\fi}{%
+                \small\input{cleancou.nt}\unskip/#2}
+            }[-1em]
+        }
+    }
+
+
+\endinput
+

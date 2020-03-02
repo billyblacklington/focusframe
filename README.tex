@@ -1,0 +1,83 @@
+\documentclass{article}
+\usepackage[on]{focusframe}
+    %TC:subst \sect \section
+    %TC:subst \subsect \subsection
+    %TC:subst \sectgoal \section
+    %TC:subst \subsectgoal \subsection
+    
+\edef\xjobname{README}
+
+
+\title{FOCUSFRAME}
+\author{Billy Black}
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{0.5em}
+
+\begin{document}
+\maketitle
+
+% \filewcount 
+\filegoal{1000}
+
+A frame that counts words by document, section and subsection in LaTeX using \href{https://app.uio.no/ifi/texcount/}{TeXcount}. The counts are colour-coded and made in the right-hand margin with the \texttt{marginnote} package.
+
+\sectgoal{Usage}{200}
+
+Write the following in the preamble: 
+
+\begin{verbatim}
+    \usepackage{focusframe}
+    %TC:subst \sect \section
+    %TC:subst \subsect \subsection
+    %TC:subst \sectgoal \section
+    %TC:subst \subsectgoal \subsection
+    \edef\xjobname{YourTexFileNameHere}
+\end{verbatim}
+
+Do not add ".tex" when defining filename.
+
+\texttt{$\backslash$filewcount} counts words in the file.
+
+\texttt{$\backslash$filegoal\{\}} counts words in the file and changes colour as the goal is reached and exceeded. The first argument is the wordcount goal.
+
+\texttt{$\backslash$sect\{\}} creates a section, counts words in the section and its subsections in grey. The first argument is the section name.
+
+\texttt{$\backslash$sectgoal\{\}\{\}} creates a section, counts words in the section and its subsections, and changes colour as the goal is reached and exceeded. The wordcount is grey by default, green within 10\% of the goal, orange up to 20\% over the goal, and red over 20\% past the goal. The first argument is the section name, the second argument is the wordcount goal. For example, this section's arguments are \texttt{$\backslash$sectgoal\{Usage\}\{200\}}.
+
+\texttt{$\backslash$subsect\{\}} creates a subsection, counts words in the subsection. The first argument is the subsection name.
+
+\texttt{$\backslash$subsectgoal\{\}\{\}} creates a subsection, counts words in the subsection and changes colour as the goal is reached and exceeded.  The wordcount is grey, green, orange, or red, according to the same rules as \texttt{$\backslash$sectgoal\{\}\{\}}.
+
+Use options \texttt{[on]} and \texttt{[off]} to turn frame on and off as needed.
+
+\sectgoal{Limitations}{150}
+
+Counting subsubsections is not supported by \texttt{TeXcount} and therefore is not a feature of this frame.
+
+Identical sub/section names will lead to errors.
+
+Symbols in sub/section names will lead to errors.
+
+Does not count words that are created by another function; for example, will not count words created by \texttt{$\backslash$lipsum} or \texttt{$\backslash$bibliography{}}.
+
+\sectgoal{Test section with wordcount goal}{100}
+
+This is a test section in which the wordcount goal is 100. The frame will show the number of words counted in green if within 10\% of the goal, orange if over 10\% past the goal, and red if over 20\% past the goal. Otherwise, it will show in grey.
+
+\subsectgoal{Test subsection with wordcount goal}{50}
+
+Similarly to above, this is a test subsection in which the wordcount goal is 50. The frame will show the number of words counted in green if within 10\% of the goal, orange if over 10\% past the goal, and red if over 20\% past the goal. Otherwise, it will show in grey.
+
+\subsectgoal{Test subsection to show section total}{50}
+
+This is a test subsection to show that the subsections are added to the word count of the section in which they appear. The frame here is orange, as the word count for the subsection is between 10-20\% past the goal. Note the section word count is red because it includes all words in Section 3 and its subsections.
+
+\sect{Test section without wordcount goal}
+
+This is a test section with no wordcount goal. The frame merely shows the word count for this section and its subsections in grey.
+
+\subsect{Test subsection without wordcount goal}
+
+This is a test subsection with no wordcount goal. The frame merely shows the word count for this subsection in grey.
+
+\end{document}
