@@ -43,13 +43,13 @@ and version 1.3c or later is part of all distributions of LaTeX version
 
 The repository contains the files:
 
-the manual (focusframe.pdf),
+  the manual (focusframe.pdf),
 
-the compiled example (focusframe.tex),
+  the compiled example (focusframe.tex),
 
-the style file (focusframe.sty),
+  the style file (focusframe.sty),
 
-and this README
+  and this README
 
 
 3 INSTALLATION
@@ -63,15 +63,15 @@ Using Overleaf: Copy focusframe.sty to your repository.
 
 This style package loads other packages:
 
-*etoolbox, https://ctan.org/pkg/etoolbox
+* etoolbox, https://ctan.org/pkg/etoolbox
 
-*fancybox, https://ctan.org/pkg/fancybox
+* fancybox, https://ctan.org/pkg/fancybox
 
-*marginnote, https://ctan.org/pkg/marginnote
+* marginnote, https://ctan.org/pkg/marginnote
 
-*xcolor, https://ctan.org/pkg/xcolor
+* xcolor, https://ctan.org/pkg/xcolor
 
-*xfp, https://ctan.org/pkg/xfp
+* xfp, https://ctan.org/pkg/xfp
 
 
 5 PACKAGE COMPATIBILITY
@@ -127,12 +127,10 @@ Billy Black
 8 KNOWN PROBLEMS
 ================
 
-*Counting subsubsections is not supported by TeXcount and therefore is not 
-a feature of focusframe.
+* Counting subsubsections is not supported by TeXcount and therefore is not a feature of focusframe.
 
-*Identical subsection or section names will lead to errors.
+* Identical subsection or section names will lead to errors.
 
-*Symbols in subsection or section names may lead to errors.
+* Symbols in subsection or section names may lead to errors.
 
-*Does not count words that are created by another function; for example, 
-will not count wordscreated by \lipsum or \bibliography.
+* Does not count words that are created by another function; for example, will not count wordscreated by \lipsum or \bibliography.
