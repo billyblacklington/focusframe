@@ -1,33 +1,12 @@
 \NeedsTeXFormat{LaTeX2e}[1994/06/01]
 \ProvidesPackage{focusframe}[2019/10/08 Temporary grey frames with word count]
-\usepackage[utf8]{inputenc}
-\usepackage{amssymb}
-\usepackage{wasysym}
-\usepackage[a4paper]{geometry}
-\usepackage[dvipsnames]{xcolor}
-\usepackage{graphicx}
-\usepackage{scrextend}
-\usepackage{fancyhdr}
-\usepackage{lastpage}
-\usepackage{lipsum}
-\pagestyle{fancy}
-\fancyhf{}
 
-\rfoot{Page \thepage \hspace{1pt} of \pageref{LastPage}}
-\setcounter{secnumdepth}{1}
-
-\usepackage{hyperref}
-\hypersetup{colorlinks=true,
-            linkcolor=blue,
-            filecolor=magenta,      
-            urlcolor=cyan,}
-\urlstyle{same}
-\usepackage[T1]{fontenc}
-\usepackage{xfp}
 \usepackage{etoolbox}
 \usepackage{fancybox}
 \usepackage[fulladjust]{marginnote}
-\usepackage{verbatim}
+\usepackage[dvipsnames]{xcolor}
+\usepackage{xfp}
+
 
 \providebool{skipcount}
 \DeclareOption{off}{\booltrue{skipcount}}
@@ -42,15 +21,6 @@
     \immediate\write18{grep "Sum" texcou.nt > filecou.nt}
     \immediate\write18{cut -d : -f 2 filecou.nt > cleancou.nt}
     }
-    
-% \newcommand{\filecount}{%
-%     \ifbool{skipcount}{\par}{%
-%         \marginnote{%
-%             \getfile
-%             \textcolor{gray}{\shadowbox{\large\textbf{\input{cleancou.nt\unskip}}}}
-%             }[-12em]
-%         }
-%     }
 
 \newcommand{\filegoal}[1]{%
     \ifbool{skipcount}{\par}{%
